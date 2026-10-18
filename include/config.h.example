@@ -1,0 +1,82 @@
+#pragma once
+
+#include <Arduino.h>
+
+// ==========================================
+// CONFIGURACIÓN DE RED WI-FI (2.4 GHz)
+// ==========================================
+#define WIFI_SSID       "TU_RED_WIFI_2.4GHZ"
+#define WIFI_PASSWORD   "TU_PASSWORD"
+
+// ==========================================
+// PINES DE PANTALLA TFT 1.8" / 1.77" ST7735/ST7735S (SPI)
+// ==========================================
+// Mapeo probado en Lolin NodeMCU V3 (ESP8266):
+//
+// Variante A (1.8" V1.1):
+//   Pin 1: GND  -> GND
+//   Pin 2: VCC  -> VIN (5V) o 3V3
+//   Pin 3: SCL  -> D5 (GPIO14 / HSPI SCK)
+//   Pin 4: SDA  -> D7 (GPIO13 / HSPI MOSI)
+//   Pin 5: RES  -> D4 (GPIO2 / RESET)
+//   Pin 6: DC   -> D3 (GPIO0)
+//   Pin 7: CS   -> D8 (GPIO15)
+//   Pin 8: BLK  -> 3V3
+//
+// Variante B (1.77" ST7735S):
+//   Pin 1: VCC  -> VIN (5V) o 3V3
+//   Pin 2: GND  -> GND
+//   Pin 3: CS   -> D8 (GPIO15)
+//   Pin 4: RES  -> D4 (GPIO2 / RESET)
+//   Pin 5: A0/DC-> D3 (GPIO0)
+//   Pin 6: SDA  -> D7 (GPIO13 / HSPI MOSI)
+//   Pin 7: SCK  -> D5 (GPIO14 / HSPI SCK)
+//   Pin 8: LED  -> 3V3
+#define TFT_CS          D8
+#define TFT_DC          D3
+#define TFT_RST         D4
+
+// Orientación vertical: 0 o 2 (128x160 píxeles)
+#define TFT_ROTATION    0
+
+// ==========================================
+// CONTROLADOR DEL PANEL: ST7735S vs ST7735B
+// ==========================================
+// - TFT_ST7735S_R: Para pantalla 1.77" o 1.8" con chip ST7735S o ST7735R (usa initR)
+// - TFT_ST7735B:   Para pantalla 1.8" con chip ST7735B (usa initB)
+#define TFT_DRIVER_TYPE TFT_ST7735S_R
+
+// Tipo de inicialización (solo aplica si TFT_DRIVER_TYPE es TFT_ST7735S_R):
+// - INITR_BLACKTAB: Estándar para la mayoría de pantallas 1.8" y 1.77"
+// - INITR_REDTAB: Si observas desfase de 1-2 píxeles en bordes superior/izquierdo
+// - INITR_GREENTAB: Para variantes con controlador alternativo
+#define ST7735_INIT_TAB INITR_BLACKTAB
+
+// Inversión de colores:
+// - false: Normal
+// - true: Si la pantalla muestra colores en negativo (panel IPS o BGR)
+#define TFT_INVERT_COLORS false
+
+// ==========================================
+// UBICACIÓN Y ZONA HORARIA
+// ==========================================
+#define LOCATION_NAME   "Santiago"
+#define LOCATION_LAT    "-33.4489"
+#define LOCATION_LON    "-70.6693"
+
+// Regla POSIX para cambio automático de horario:
+// Chile Continental:
+// Horario de Invierno: UTC-4 (CLT)
+// Horario de Verano:   UTC-3 (CLST), inicia 1er domingo septiembre a medianoche, termina 1er domingo abril a medianoche.
+#define TIMEZONE_RULE   "CLT4CLST,M9.1.0/0,M4.1.0/0"
+
+// Servidores NTP
+#define NTP_SERVER_1    "pool.ntp.org"
+#define NTP_SERVER_2    "time.google.com"
+
+// ==========================================
+// INTERVALOS DE ACTUALIZACIÓN
+// ==========================================
+#define CLOCK_REFRESH_INTERVAL_MS    1000UL          // 1 segundo
+#define WEATHER_REFRESH_INTERVAL_MS  (15UL * 60UL * 1000UL) // 15 minutos
+#define WEATHER_RETRY_INTERVAL_MS    (60UL * 1000UL) // 1 minuto si falla

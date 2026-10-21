@@ -78,8 +78,13 @@ void setup() {
         Serial.println(F("[NTP] Esperando respuesta de servidor de tiempo..."));
     }
 
-    // 4. Dibujar plantilla base en pantalla
+    // 4. Dibujar plantilla base en pantalla (CUSTOM_DISPLAY_NAME o LOCATION_NAME por defecto)
+#ifdef CUSTOM_DISPLAY_NAME
+    const char* headerTitle = (strlen(CUSTOM_DISPLAY_NAME) > 0) ? CUSTOM_DISPLAY_NAME : LOCATION_NAME;
+    ui.drawBaseLayout(headerTitle);
+#else
     ui.drawBaseLayout(LOCATION_NAME);
+#endif
     baseLayoutDrawn = true;
 
     // 5. Carga inicial del pronóstico meteorológico si hay Wi-Fi

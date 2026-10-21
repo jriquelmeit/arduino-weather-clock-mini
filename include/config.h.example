@@ -60,9 +60,15 @@
 // ==========================================
 // UBICACIÓN Y ZONA HORARIA
 // ==========================================
-#define LOCATION_NAME   "Santiago"
-#define LOCATION_LAT    "-33.4489"
-#define LOCATION_LON    "-70.6693"
+// Coordenadas: Palacio de La Moneda (Santiago Centro)
+#define LOCATION_NAME        "Santiago"
+#define LOCATION_LAT         "-33.4428"
+#define LOCATION_LON         "-70.6542"
+
+// Nombre personalizado en cabecera (Opcional, máx 12 caracteres):
+// - Si lo descomentas, se mostrará en pantalla en vez del nombre de la ciudad.
+// - Si lo dejas comentado o no existe, se mostrará LOCATION_NAME ("Santiago").
+// #define CUSTOM_DISPLAY_NAME  "Pepito"
 
 // Regla POSIX para cambio automático de horario:
 // Chile Continental:

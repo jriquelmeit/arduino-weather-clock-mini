@@ -29,8 +29,8 @@ La interfaz se divide verticalmente en 5 secciones optimizadas:
      |  [ICON]    21.5 C            |  -> Clima Actual: Icono + Temp + Condición
      |  14x14     Despejado         |
 112px+------------------------------+
-     |  DOM 18         LUN 19       |
-     | [i] 12/24      [i] 14/26     |  -> Pronóstico 2 Días (2 columnas compactas)
+     |  HOY 17         DOM 18       |
+     | [i] 10/22      [i] 12/24     |  -> Pronóstico: Hoy + Mañana (Min / Max)
 148px+------------------------------+
      | 14:35 | 192.168.1.45         |  -> Barra de estado inferior
 160px+------------------------------+
@@ -133,11 +133,15 @@ Edita `include/config.h`:
 // Inversión de colores (false: normal, true: si los colores se ven en negativo)
 #define TFT_INVERT_COLORS false
 
-// Ubicación y regla POSIX horaria
-#define LOCATION_NAME   "Santiago"
-#define LOCATION_LAT    "-33.4489"
-#define LOCATION_LON    "-70.6693"
-#define TIMEZONE_RULE   "CLT4CLST,M9.1.0/0,M4.1.0/0"
+// Ubicación y coordenadas (Palacio de La Moneda, Santiago Centro)
+#define LOCATION_NAME        "Santiago"
+#define LOCATION_LAT         "-33.4428"
+#define LOCATION_LON         "-70.6542"
+#define TIMEZONE_RULE        "CLT4CLST,M9.1.0/0,M4.1.0/0"
+
+// Opcional: Nombre personalizado en la cabecera (máx 12 caracteres)
+// Si se deja comentado o vacío, mostrará LOCATION_NAME ("Santiago")
+// #define CUSTOM_DISPLAY_NAME  "Pepito"
 ```
 
 ---

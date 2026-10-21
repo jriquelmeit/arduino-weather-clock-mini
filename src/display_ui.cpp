@@ -169,12 +169,12 @@ void DisplayUI::updateWeather(const WeatherData& weather) {
     snprintf(condBuf, sizeof(condBuf), "%-15.15s", weather.current.conditionText);
     _tft.print(condBuf);
 
-    // 6. Pronóstico Día 1 (Mañana)
+    // 6. Pronóstico Día Actual (Hoy)
     _tft.fillRect(4, 116, 56, 30, COLOR_BLACK);
     _tft.setTextSize(1);
     _tft.setTextColor(COLOR_YELLOW, COLOR_BLACK);
     _tft.setCursor(6, 117);
-    _tft.print(weather.forecast[0].shortDayName);
+    _tft.print(weather.forecast[0].shortDayName); // "HOY DD"
 
     drawWeatherIcon(13, 136, weather.forecast[0].iconType, true);
 
@@ -186,12 +186,12 @@ void DisplayUI::updateWeather(const WeatherData& weather) {
     _tft.setTextColor(COLOR_ORANGE, COLOR_BLACK);
     _tft.printf("%2.0f", weather.forecast[0].tempMax);
 
-    // 7. Pronóstico Día 2 (Pasado Mañana)
+    // 7. Pronóstico Día Siguiente (Mañana)
     _tft.fillRect(68, 116, 56, 30, COLOR_BLACK);
     _tft.setTextSize(1);
     _tft.setTextColor(COLOR_YELLOW, COLOR_BLACK);
     _tft.setCursor(70, 117);
-    _tft.print(weather.forecast[1].shortDayName);
+    _tft.print(weather.forecast[1].shortDayName); // "DIA DD"
 
     drawWeatherIcon(77, 136, weather.forecast[1].iconType, true);
 

@@ -35,7 +35,7 @@ struct WeatherData {
     bool valid;
     unsigned long lastFetchTime;
     CurrentWeather current;
-    DailyForecast forecast[2]; // Dos días posteriores (mañana y pasado mañana)
+    DailyForecast forecast[2]; // forecast[0]: Hoy, forecast[1]: Mañana
 };
 
 const char* getWeatherDescription(int code);

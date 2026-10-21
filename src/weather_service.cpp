@@ -137,13 +137,25 @@ bool WeatherService::fetchWeather(const char* lat, const char* lon, WeatherData&
              getWeatherDescription(outData.current.weatherCode));
     outData.current.iconType = getWeatherIconType(outData.current.weatherCode);
 
-    // Parsear pronóstico de los dos días posteriores (índices 1 y 2 de daily)
+    // Parsear pronóstico de hoy (índice 0) y mañana (índice 1)
     for (int i = 0; i < 2; i++) {
-        int dayIndex = i + 1;
+        int dayIndex = i; // 0 = Hoy, 1 = Mañana
         const char* dStr = doc["daily"]["time"][dayIndex] | "";
         snprintf(outData.forecast[i].date, sizeof(outData.forecast[i].date), "%s", dStr);
         getSpanishDayFromIsoDate(dStr, outData.forecast[i].dayName, sizeof(outData.forecast[i].dayName));
-        getSpanishShortDayFromIsoDate(dStr, outData.forecast[i].shortDayName, sizeof(outData.forecast[i].shortDayName));
+
+        if (i == 0) {
+            // Para el día actual, formatear como "HOY DD" (ej: "HOY 17")
+            int y = 0, m = 0, d = 0;
+            if (sscanf(dStr, "%d-%d-%d", &y, &m, &d) == 3) {
+                snprintf(outData.forecast[0].shortDayName, sizeof(outData.forecast[0].shortDayName), "HOY %02d", d);
+            } else {
+                snprintf(outData.forecast[0].shortDayName, sizeof(outData.forecast[0].shortDayName), "HOY");
+            }
+        } else {
+            // Para el día siguiente, formatear como "DIA DD" (ej: "DOM 18")
+            getSpanishShortDayFromIsoDate(dStr, outData.forecast[i].shortDayName, sizeof(outData.forecast[i].shortDayName));
+        }
 
         outData.forecast[i].tempMax = doc["daily"]["temperature_2m_max"][dayIndex] | 0.0f;
         outData.forecast[i].tempMin = doc["daily"]["temperature_2m_min"][dayIndex] | 0.0f;
@@ -159,9 +171,9 @@ bool WeatherService::fetchWeather(const char* lat, const char* lon, WeatherData&
     Serial.println(F("[Clima] Datos meteorologicos actualizados con exito."));
     Serial.printf("  Actual: %.1f C, Hum: %d%%, Cond: %s\n",
                   outData.current.temperature, outData.current.humidity, outData.current.conditionText);
-    Serial.printf("  Manana (%s): Min: %.1f C, Max: %.1f C, %s\n",
+    Serial.printf("  Hoy (%s): Min: %.1f C, Max: %.1f C, %s\n",
                   outData.forecast[0].shortDayName, outData.forecast[0].tempMin, outData.forecast[0].tempMax, outData.forecast[0].conditionText);
-    Serial.printf("  Pasado (%s): Min: %.1f C, Max: %.1f C, %s\n",
+    Serial.printf("  Manana (%s): Min: %.1f C, Max: %.1f C, %s\n",
                   outData.forecast[1].shortDayName, outData.forecast[1].tempMin, outData.forecast[1].tempMax, outData.forecast[1].conditionText);
 
     return true;
